@@ -1,8 +1,79 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'hanson-bold';
+  src: url('/src/utilities/font/Hanson-Bold.ttf');
+}
 
 @theme {
+  --font-heading: "hanson-bold";
+  --font-subHeading: "Satoshi", sans-serif;
+
   --color-primary: #202020;
-  --color-secondary: #d6ff03;
-  --color-third: #d9d9d9;
-  --color-fourty: #f8fafc;
+  --color-secondary: #D6FF03;
+  --color-third: #D9D9D9;
+  --color-fourty: #F8FAFC;
+}
+
+@layer base {
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    background-color: var(--color-third);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  .scrollBar {
+    display: none;
+  }
+
+  .main-container {
+    width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width: 1200px) {
+    .main-container {
+      padding: 2rem 1.5rem;
+      width: 100%;
+      max-width: 1200px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .main-container {
+      padding: 1.5rem 1rem;
+    }
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+}
+
+a,
+p {
+  font-family: var(--font-subHeading);
+}
+
+.selected::selection {
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
+}
+
+.outlineTypo {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 1px;
 }

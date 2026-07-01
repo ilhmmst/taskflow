@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuthStore } from '../../store/useAuthStore';
+import { Input } from '../../utilities/components/Input';
+import { Button } from '../../utilities/components/Button';
 
 const loginSchema = z.object({
   username: z.string().min(1, 'Username wajib diisi'),
@@ -15,6 +17,7 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
@@ -25,54 +28,37 @@ export const LoginForm = () => {
     if (data.username === 'admin' && data.password === 'password123') {
       login(data.username, 'mock-jwt-token-xyz');
     } else {
-      alert('Kredensial salah! Gunakan admin / password123');
+      setError('root', { message: 'Kredensial salah! Gunakan admin / password123' });
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-5 p-6 bg-white shadow-xl rounded-xl border border-gray-100"
+      className="flex flex-col gap-5 "
     >
-      <div className="flex flex-col gap-1">
-        <label className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Username
-        </label>
-        <input
-          {...register('username')}
-          placeholder="Masukkan username"
-          className="border border-gray-300 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-        />
-        {errors.username && (
-          <span className="text-red-500 text-xs mt-0.5">
-            {errors.username.message}
-          </span>
-        )}
-      </div>
+      <Input
+        label="Username"
+        placeholder="Masukkan username"
+        error={errors.username?.message}
+        {...register('username')}
+      />
 
-      <div className="flex flex-col gap-1">
-        <label className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Password
-        </label>
-        <input
-          type="password"
-          {...register('password')}
-          placeholder="••••••••"
-          className="border border-gray-300 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-        />
-        {errors.password && (
-          <span className="text-red-500 text-xs mt-0.5">
-            {errors.password.message}
-          </span>
-        )}
-      </div>
+      <Input
+        label="Password"
+        type="password"
+        placeholder="••••••••"
+        error={errors.password?.message}
+        {...register('password')}
+      />
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white font-medium p-2.5 rounded-lg hover:bg-blue-700 active:scale-[0.98] transition shadow-md shadow-blue-200 mt-2 cursor-pointer"
-      >
+      {errors.root && (
+        <p className="text-red-500 text-sm mt-2">{errors.root.message}</p>
+      )}
+
+      <Button type="submit" variant="primary" className="mt-2 rounded-2xl py-4 hover:bg-primary/90 transtion duration-300">
         Masuk Aplikasi
-      </button>
+      </Button>
     </form>
   );
 };
