@@ -124,7 +124,7 @@ export const Dashboard = () => {
   return (
     <div ref={pageRef} className="min-h-screen text-primary font-subHeading">
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <header className="bg-third sticky top-0 z-10 px-4 py-4 flex justify-between items-center border-b-2 ">
+      <header className="bg-third sticky top-0 z-10 px-27 py-4 flex justify-between items-center border-b-2 ">
         <div className="flex flex-col gap-1">
           <h1 className="font-heading text-2xl">
             DASHBOARD

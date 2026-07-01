@@ -155,10 +155,10 @@ export const TaskFormPage = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
           <button
             onClick={() => navigateTo('/dashboard')}
-            className="font-subHeading text-sm text-primary/70 hover:text-primary transition w-fit flex items-center gap-1"
+            className="font-subHeading text-sm text-primary/70 hover:text-primary transition w-fit flex items-center gap-4"
             aria-label="Kembali ke dashboard"
           >
-            ← Back
+            ← Take Me Back
           </button>
 
           <h1
@@ -197,9 +197,9 @@ export const TaskFormPage = () => {
               rows={4}
               placeholder="Tambahkan deskripsi tugas..."
               className={[
-                'border border-third rounded-lg px-4 py-2.5 w-full font-subHeading',
-                'bg-fourty text-primary outline-none transition-all resize-none',
-                'focus:border-secondary focus:ring-2 focus:ring-secondary/30',
+                'border border-third rounded-2xl px-4 py-2.5 w-full font-subHeading',
+                'bg-primary/10 text-primary outline-none transition-all resize-none',
+                'focus:border-primary',
                 errors.description
                   ? 'border-red-500 ring-2 ring-red-500/20 focus:border-red-500 focus:ring-red-500/20'
                   : '',
