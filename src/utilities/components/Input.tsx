@@ -34,7 +34,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={inputId}
-          className={`${baseClasses} ${className}`.trim()}
+          className={`${baseClasses} ${errorClasses} ${className}`.trim()}
           {...rest}
         />
         {error && (
