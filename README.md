@@ -37,35 +37,38 @@ src/
 ├── index.css        # Konfigurasi utility class Tailwind CSS global
 └── main.tsx         # Entry point aplikasi
 
-⚙️ Implementasi Requirement Fitur
+## ⚙️ Implementasi Requirement Fitur
 
-A. Autentikasi & Sesi (Mock Offline)
-Hardcoded Credentials: Validasi login aman ditangani secara lokal menggunakan skema Zod pada sisi client side.
+### A. Autentikasi & Sesi (Mock Offline)
+- **Hardcoded Credentials**: Validasi login ditangani secara lokal menggunakan skema **Zod** pada sisi *client-side*.
 
-Session Persistence: Sesi user diisolasi menggunakan Zustand Store yang dikonfigurasi dengan middleware persist untuk disinkronisasikan langsung ke LocalStorage. Saat halaman di-refresh, user tetap berada dalam sesi aktif.
+- **Session Persistence**: Sesi user diisolasi menggunakan **Zustand Store** yang dikonfigurasi dengan *middleware* `persist` untuk disinkronisasikan langsung ke `LocalStorage`. Saat halaman di-refresh, user tetap berada dalam sesi aktif.
 
-Private Route: Repositori routing membungkus halaman utama menggunakan komponen <ProtectedRoute />. Akses paksa ke /dashboard tanpa token valid akan diredireksi secara otomatis kembali ke halaman /login.
+- **Private Route**: Repositori routing membungkus halaman utama menggunakan komponen `<ProtectedRoute/>`. Akses paksa ke `/dashboard` tanpa token valid akan diredireksi secara otomatis kembali ke halaman `/login`.
 
-B. Task Management & Abstraksi Data Layer (CRUD)
-Separation of Concerns: Komponen UI tidak melakukan pemanggilan storage langsung. Seluruh operasi CRUD didelegasikan ke pembungkus Promise manual berbasis Axios yang mensimulasikan network latency selama 800ms - 1000ms menggunakan setTimeout.
+### B. Task Management & Abstraksi Data Layer (CRUD)
+- **Separation of Concerns**: Komponen UI tidak melakukan pemanggilan *storage* langsung. Seluruh operasi CRUD didelegasikan ke pembungkus *Promise* manual berbasis **Axios** yang mensimulasikan *network latency* selama 800ms - 1000ms menggunakan `setTimeout`.
 
-Axios Interceptors: Mengimplementasikan interceptor request untuk menyisipkan token autentikasi tiruan ke dalam header sebelum proses fetching dijalankan.
+- **Axios Interceptors**: Mengimplementasikan *interceptor request* untuk menyisipkan token autentikasi tiruan ke dalam *header* sebelum proses *fetching* dijalankan.
 
-TanStack Query Integration: Pengelolaan state asinkron menggunakan React Query untuk mengotomatisasi status isLoading, isError, serta melakukan otomatisasi cache invalidation (invalidateQueries) pasca melakukan mutasi data (Create, Update, Delete).
+- **TanStack Query Integration**: Pengelolaan *state* asinkron menggunakan **React Query** untuk mengotomatisasi status `isLoading`, `isError`, serta melakukan otomatisasi *cache invalidation* (`invalidateQueries`) pasca melakukan mutasi data (Create, Update, Delete).
 
-C. Global Search & Filter
-Sinkronisasi pencarian kata kunci (search keyword) dan status filter kelompok (Semua, Selesai, Belum Selesai) dikelola secara terpusat di dalam Zustand Store.
+### C. Global Search & Filter
+- Sinkronisasi pencarian kata kunci (*search keyword*) dan status filter kelompok (Semua, Selesai, Belum Selesai) dikelola secara terpusat di dalam **Zustand Store**.
 
-Sistem penyaringan data bersifat reaktif, memastikan render daftar tugas langsung menyesuaikan dengan kombinasi filter dan kata kunci aktif secara instan.
+- Sistem penyaringan data bersifat reaktif, memastikan *render* daftar tugas langsung menyesuaikan dengan kombinasi filter dan kata kunci aktif secara instan.
 
-D. Advanced Task: Multi-Select & Bulk Actions (Opsional)
-Selection State: Menyediakan kapabilitas manajemen state kompleks untuk memilih beberapa task card sekaligus via checkbox.
+### D. Advanced Task: Multi-Select & Bulk Actions
+- **Selection State**: Menyediakan kapabilitas manajemen *state* kompleks untuk memilih beberapa *task card* sekaligus via *checkbox*.
 
-Conditional Bulk Toolbar: Tombol aksi massal (Bulk Delete dan Bulk Complete) diisolasi dan hanya akan muncul secara kondisional ke layar jika jumlah item terpilih > 0.
+- **Conditional Bulk Toolbar**: Tombol aksi massal (*Bulk Delete* dan *Bulk Complete*) diisolasi dan hanya akan muncul secara kondisional ke layar jika jumlah item terpilih > 0.
 
-Select All Logical: Implementasi fitur Select All yang adaptif, di mana tombol akan secara cerdas hanya memilih seluruh item yang saat itu lolos dari filter aktif (bukan memilih seluruh isi database).
+- **Select All Logical**: Implementasi fitur *Select All* yang adaptif, di mana tombol akan secara cerdas hanya memilih seluruh *item* yang saat itu lolos dari filter aktif (bukan memilih seluruh isi *database*).
 
-🧠 Tantangan Teknis & Solusi Alternatif
-Mitigasi Layout Overflow: Saat pengujian entri data ekstrem (input teks tanpa spasi yang sangat panjang pada judul tugas), teks merusak struktur grid responsif. Masalah ini diselesaikan dengan menyematkan utilitas Tailwind break-words di dalam komponen <TaskCard /> agar teks melakukan word-wrap secara paksa mengikuti lebar kontainer.
+---
 
-Asinkronitas Animasi & State: Integrasi animasi masuk (entrance animation) menggunakan GSAP sempat mengalami kendala kalkulasi dimensi elemen visual saat state loading beralih dari true ke false. Diselesaikan secara manual dengan mengandalkan pendekatan ResizeObserver agar inisialisasi garis gerak animasi baru dieksekusi tepat setelah elemen selesai dirender sepenuhnya pada DOM.
+## 🧠 Tantangan Teknis & Solusi Alternatif
+
+- **Mitigasi Layout Overflow**: Saat pengujian entri data ekstrem (input teks tanpa spasi yang sangat panjang pada judul tugas), teks merusak struktur *grid* responsif. Masalah ini diselesaikan dengan menyematkan utilitas Tailwind `break-words` di dalam komponen `<TaskCard/>` agar teks melakukan *word-wrap* secara paksa mengikuti lebar kontainer.
+
+- **Asinkronitas Animasi & State**: Integrasi animasi masuk (*entrance animation*) menggunakan **GSAP** sempat mengalami kendala kalkulasi dimensi elemen visual saat *state loading* beralih dari `true` ke `false`. Diselesaikan secara manual dengan mengandalkan pendekatan `ResizeObserver` agar inisialisasi garis gerak animasi baru dieksekusi tepat setelah elemen selesai dirender sepenuhnya pada DOM.
